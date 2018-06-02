@@ -1,0 +1,311 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>&lt;no title&gt; &#8212; nice_notes 0.0.1 文档</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>h2. 序列
+含义:
+成员 有序排列, 通过下标偏移量访问
+包括  str, list, tuple
+操作符:
+标准类型操作符
+序列类型操作符
+成员关系
+True/False, in, obj in seq
+not in
+连接
+推荐    seq1.extent(seq2)
++ seq1 + seq2
+重复
+* seq*expr
+切片
+seq[ind]
+seq[ind1:ind2]
+[], [:], [::]
+基本样式:
+[下限:上限:步长]
+上限本身, 不包括在内
+拓展样式
+倒数切片 s[-10:-1]
+逆序 [::-1]
+隔一取一  s[::2]
+全选  s/s[:]/s[::]/s[:None]/s[None:]
+切片索引 可超过序列长度
+range(-1, 4, -1) 返回[-1,-2,-3]
+h3. BIF
+h4. 类型转换-工厂函数
+list()
+str()
+tuple()
+h4. 参数接受
+序列对象
+len()
+reversed()
+sum()
+zip()
+以上+可迭代对象enumerate()
+sorted()
+以上+参数列表
+max()
+min()
+h4. 其他操作
+all(s)  返回 True 如果[所有]元素都是True
+any(s)  返回 True 如果[任一]元素为True
+s.count(x) 返回 x在S中出现的次数
+s.index(x) 返回 x 在s中的一次出现的下标
+h2. 列表|元组
+h3. list  元素可变,操作影响原表
+h4. 操作符
+标准类型操作符
+比较操作符
+依次比较操作符
+直到一方胜出
+序列类型操作符
+[]&amp;[:]
+in &amp; not in
++ 推荐使用list.extend(list2)
+*
+列表解析h4. 内建函数
+标准类型
+cmp() 依次判断
+同类型元素,比较值大小
+不同类型,都是数字,强制转换同类型
+一方数字, 数字总是最小
+否则按字母顺序
+一方先到达列表尾部, 另一方大
+序列类型
+len()/sum()/max()/min()
+sorted()/reversed()
+enumerated()/zip()
+list()/tuple()
+列表类型
+list.count()
+list.index()
+list.append()  追加到末尾
+list.insert(1, ‘abc’) 插入元素到索引为1的位置
+list1.extend(list2) 在list1末尾 添加list2的所有元素
+list.pop() 删除末尾元素并返回值
+list.pop(i) 删除指定元素值
+list.remove()
+list.sort()/list.reverse()  排序/逆序
+用于改变对象值[可变对象方法]
+无返回值
+直接修改原对象
+h3. tuple
+元素不可变, 一旦初始化不可修改,指向永远不变
+内建函数(BIF),基本同list
+tuple() 工厂函数
+tuple.count()
+tuple.index()
+特殊特性
+数字,字符串,元组 不可变
+可变:t = t+t1
+t = (1, 1, 1, 1, 0)
+t1 = (2,3,4,5)
+t2 = t+t1
+(1, 1, 1, 1, 0, 2, 3, 4, 5)
+若包含list元素
+list元素可变
+但指向list 不变
+默认集合类型
+多对象,都好分割,无明确用符号定义的
+函数返回默认为元组
+表示元组,建议总是用 圆括号</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">单元素元组</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span>
+        <span class="n">字典键值可作为元组</span>
+<span class="n">h3</span><span class="o">.</span> <span class="n">拷贝</span>
+    <span class="n">浅拷贝</span>
+        <span class="n">新建一个对象</span>
+           <span class="n">对象类型同原对象</span>
+           <span class="n">内容为源对象内容的引用</span>
+        <span class="n">默认类型拷贝</span>
+           <span class="p">[:]</span>  <span class="n">完全切片操作</span>
+           <span class="nb">list</span><span class="p">(),</span><span class="nb">dict</span><span class="p">()</span> <span class="n">工厂函数</span>
+           <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="n">copy模块</span>
+        <span class="n">区分</span>
+            <span class="n">字符串</span> 
+                <span class="n">新建对象</span> <span class="o">+</span><span class="n">显示拷贝</span>
+            <span class="n">列表元素</span>
+                <span class="n">新建对象</span> <span class="n">是复制引用</span>
+
+    <span class="n">深拷贝</span>
+        <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">()</span>  <span class="n">新建对象</span><span class="o">+</span><span class="n">全选引用</span>
+    <span class="n">h4</span><span class="o">.</span> <span class="n">非容器类型没有拷贝</span>
+            <span class="n">数字</span><span class="p">,</span><span class="n">字符串</span><span class="p">,</span><span class="n">其他</span><span class="s1">&#39;原子&#39;</span><span class="n">类型对象浅拷贝用</span><span class="p">[</span><span class="n">完全切片操作</span><span class="p">]</span><span class="n">完成</span>
+        <span class="n">元组变量只包括源自类型对象</span>
+        <span class="n">不会进行深拷贝</span><span class="p">,</span><span class="n">只能得到浅拷贝</span>
+</pre></div>
+</div>
+<p>h2. 字符串
+操作符
+标准类型操作符
+比较操作, 按照ASCII值比较大小
+序列操作符
++ 可用于连接多个字符串
+% 或 join性能更佳
+格式化操作符(%)
+.format()  推荐
+辅助指令
+flags
++ 正数前显示
+- 左对齐
+<sp> 一个空格
+0, 数字用 0 填充
+%, %%, 转义表示普通字符%
+width  显示宽度
+precision 小数点后精度
+typecode
+原始字符串操作符 (r/R) r’‘, 默认不转义
+Unicode 字符串操作符(u/U), u’‘</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">独特特性</span>
+     <span class="n">特殊字符串</span>
+         <span class="n">转义字符</span> \
+            \<span class="n">n</span> <span class="n">回车</span>
+            \<span class="n">t</span> <span class="n">制表符</span>
+            \\ <span class="n">反斜杠</span>
+            \<span class="n">r</span> <span class="n">回车</span>
+      <span class="sd">&#39;&#39;&#39; &#39;&#39;&#39;</span> <span class="n">多行内容</span>
+      <span class="n">不可变</span>
+         <span class="n">改变一个字符串元素</span><span class="p">,</span> <span class="n">需要新建字符串</span>
+      <span class="n">单引号与双引号用法相同</span><span class="p">,</span><span class="n">都表示字符串</span>
+      <span class="n">可相互嵌套</span><span class="p">,</span> <span class="n">字符串可看作是特殊的元组</span>
+<span class="n">h3</span><span class="o">.</span> <span class="n">编码问题</span>
+    <span class="n">概念</span>  <span class="mi">1</span> <span class="n">bit</span><span class="p">(</span><span class="n">位</span><span class="p">)</span>  <span class="o">=</span><span class="mi">0</span><span class="o">/</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">种可能性</span>
+          <span class="mi">1</span> <span class="n">byte字节</span> <span class="mi">8</span> <span class="n">bit</span><span class="p">,</span> <span class="mi">2</span><span class="o">^</span><span class="mi">8</span> <span class="n">可能</span>
+    <span class="n">种类</span><span class="p">:</span>
+        <span class="n">ASCII</span>  <span class="n">美国标准</span>
+            <span class="mi">1</span> <span class="n">个字节</span> <span class="mi">8</span><span class="n">位</span>
+            <span class="n">英文字符</span> <span class="o">=</span> <span class="n">常见符号</span>
+        <span class="n">Unicode</span>
+            <span class="mi">2</span><span class="n">个字节</span> <span class="mi">16</span><span class="n">位</span>
+            <span class="n">字符集</span> <span class="n">世界文字字符</span>
+            <span class="n">变长编码方式</span>
+                <span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>  <span class="n">英文</span> <span class="mi">1</span><span class="n">个字符</span>
+                     <span class="n">中文</span> <span class="mi">3</span><span class="n">个字节</span>
+                     <span class="n">生僻字符</span> <span class="mi">4</span><span class="o">-</span><span class="mi">6</span><span class="n">字节</span>
+                <span class="n">UTF</span><span class="o">-</span><span class="mi">16</span>  <span class="n">统一</span>  <span class="mi">2</span><span class="n">个字节</span>
+        <span class="n">汉字</span> <span class="n">GBK</span><span class="p">,</span><span class="n">GBK2312</span><span class="p">,</span><span class="n">GB18030</span>
+        <span class="n">计算机只能处理数字</span>
+            <span class="n">文本</span><span class="o">-&gt;</span><span class="n">数字</span>
+            <span class="n">Unicode</span> <span class="n">字符集</span> <span class="o">-&gt;</span> <span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="n">可变长编码方式</span>
+        <span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>  
+            <span class="mf">3.</span><span class="n">X版本默认编码</span>
+        <span class="n">ASCII</span> <span class="mf">2.</span><span class="n">X版本默认编码</span>
+        <span class="n">必须指定</span><span class="p">:</span> <span class="c1">#-*- coding:utf-8 -*-</span>
+
+ <span class="n">h3</span><span class="o">.</span> <span class="n">BIF</span>
+    <span class="n">标准类型</span>
+    <span class="n">序列类型</span>
+    <span class="n">字符串类型</span>
+        <span class="nb">input</span><span class="p">()</span>
+        <span class="n">工厂函数</span> 
+        <span class="nb">str</span><span class="p">()</span><span class="o">&amp;</span><span class="n">unicode</span><span class="p">()</span>
+    <span class="n">字符串BIF</span>
+        <span class="nb">dir</span><span class="p">()</span> <span class="n">查看所有BIF</span>
+        <span class="n">更改显示方式</span>
+        <span class="n">检查</span>
+        <span class="n">修改</span>
+           <span class="n">expandtabs</span><span class="p">()</span>
+           <span class="n">replace</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+           <span class="n">strip</span><span class="p">()</span><span class="o">/</span><span class="n">lstrip</span><span class="p">()</span><span class="o">/</span><span class="n">rstrip</span><span class="p">()</span>
+           <span class="n">split</span><span class="p">()</span><span class="o">/</span><span class="n">rsplit</span><span class="p">()</span><span class="o">/</span><span class="n">splitlines</span><span class="p">()</span>
+           <span class="n">分割三元组partition</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">/</span><span class="n">rpartition</span><span class="p">()</span>
+           <span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+        <span class="n">格式化字符串</span>
+            <span class="n">位置参数</span>
+            <span class="n">关键字参数</span>
+            <span class="n">下标</span>
+            <span class="n">对齐</span>
+                <span class="o">&lt;</span> <span class="n">左</span><span class="p">,</span> <span class="o">&gt;</span> <span class="n">右</span><span class="p">,</span> <span class="o">^</span> <span class="n">居中</span>
+            <span class="o">.</span><span class="n">format</span><span class="p">()</span>
+
+        <span class="n">其他</span>
+            <span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span>  <span class="n">maketrans</span>
+            <span class="n">translate</span>
+                <span class="n">table</span> <span class="n">参数</span>
+                <span class="k">del</span> <span class="n">参数</span>
+</pre></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/py_base_序列-列表-元组-字符串.md.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, zeus_dy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/py_base_序列-列表-元组-字符串.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

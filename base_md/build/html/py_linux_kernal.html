@@ -1,0 +1,205 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>linux kernal &#8212; nice_notes 0.0.1 文档</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="linux-kernal">
+<span id="linux-kernal"></span><h1>linux kernal<a class="headerlink" href="#linux-kernal" title="永久链接至标题">¶</a></h1>
+<div class="section" id="i-o">
+<span id="i-o"></span><h2>1 内核I/O:<a class="headerlink" href="#i-o" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    内核--进程
+    进程描述符：进程元数据  双向链表
+    linux抢占
+    系统时钟：时钟
+    tick：滴答 时间解析度，100Hz，1000Hz   1秒计数1000次
+    时钟中断
+    进程交互类别：
+    交互式进程（I/O）
+    批处理进程（CPU）
+    实时进程（Real-time）
+    
+    CPU：时间片长，优先级低
+    IO：时间片短，优先级高
+</pre></div>
+</div>
+</div>
+<div class="section" id="linux-priority">
+<span id="linux-priority"></span><h2>2 linux优先级:priority<a class="headerlink" href="#linux-priority" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    实时优先级：1-99，数字越小，优先级越低
+    静态优先级：100-139 ，数据越小，优先级越高   
+    实时优先级比静态优先级高
+    :duref:`ref &lt;ps -e -o class,rtprio,pri,nice,cmd）&gt;`
+    ps -e -o class,rtprio,pri,nice,cmd   
+        -e 所有与终端有关无关的进程信息
+        -o 自定义显示 
+        class 调度类别
+        rtprio 运行实时优先级
+        pri 进程优先级
+        nice 调整静态优先级   -20，19 ：100，139  nice值为0对应为优先级 120
+</pre></div>
+</div>
+<div class="section" id="">
+<span id="id1"></span><h3>2.1 调度类别： 按优先级进行调度<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    实时进程：
+        SCHED_FIFO:First in first out    上图中调度类别CLASS中的 FF
+        SCHED_RR:Round Robin
+        SCHED_Other:调度100-139之间的进程   上图中调度类别CLASS中的 TS
+        http://honglus.blogspot.com/2011/03/understanding-cpu-scheduling-priority.html
+</pre></div>
+</div>
+</div>
+<div class="section" id="">
+<span id="id2"></span><h3>2.2 动态优先级算法<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    :duref:`ref &lt;dynamic priority=max（100，min（static priority - bonus +5，139））&gt;`
+    dynamic priority=max（100，min（static priority - bonus +5，139））
+    bouns  奖惩措施 范围 0-10
+    110，-3
+    110-(-3)+5 =118 
+</pre></div>
+</div>
+</div>
+<div class="section" id="">
+<span id="id3"></span><h3>2.3 手动调整优先级<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    100-139：nice
+    nice N   COMMAND
+    renice -n # PID
+    chrt -p [prio] PID
+    1-99：
+    chrt -f -p [prio] PID
+    chrt -r -p [prio] PID
+    chrt -f -p [prio] COMMAND
+    ps -e -o class,rtprio,pri,nice,cmd   
+    (o1) 调度无论有多少进程，调度列表只有139个列表等等扫描
+    CFQ Complete Fair Queue 完全公平调度 适合桌面系统
+    SCHED_Other
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="linux">
+<span id="linux"></span><h2>3 linux进程创建机制<a class="headerlink" href="#linux" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">COW</span>
+    <span class="n">Kernel</span> <span class="o">--&gt;</span><span class="n">init</span>
+    <span class="n">init</span>
+    <span class="n">fork</span><span class="p">():</span>
+    <span class="n">task_struct</span>
+    <span class="n">Memory</span><span class="o">--&gt;</span><span class="n">Parent</span>
+    <span class="n">COW</span><span class="p">:</span><span class="n">Copy</span> <span class="n">On</span> <span class="n">Write</span>
+    <span class="n">prefork</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="os-system">
+<span id="os-system"></span><h2>4 OS system<a class="headerlink" href="#os-system" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    cpu &lt;----&gt; NorthBridge &lt;-----&gt;RAM
+    单进程最大3G使用内存
+    32位，64位 cpu 寻址 2^32=4G , 
+    PAE  物理地址扩展 32bits+4bits  64G
+    存取速度，CPU寄存器 &gt; 一级缓存&gt;二级缓存&gt;三级缓存&gt;RAM内存&gt;硬盘
+    N路关联    Interrupt Controller
+    内存RAM  BIOS DMA 
+    4k，page，page frame（页框）
+    计算机 核心三部分：运算器，控制器，存储器       显卡为   IO设备
+    tcp 端口号其实就是进程地址
+    程序 局部性，空间局部性，时间局部性
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">linux kernal</a><ul>
+<li><a class="reference internal" href="#i-o">1 内核I/O:</a></li>
+<li><a class="reference internal" href="#linux-priority">2 linux优先级:priority</a><ul>
+<li><a class="reference internal" href="#">2.1 调度类别： 按优先级进行调度</a></li>
+<li><a class="reference internal" href="#">2.2 动态优先级算法</a></li>
+<li><a class="reference internal" href="#">2.3 手动调整优先级</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linux">3 linux进程创建机制</a></li>
+<li><a class="reference internal" href="#os-system">4 OS system</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/py_linux_kernal.md.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, zeus_dy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/py_linux_kernal.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

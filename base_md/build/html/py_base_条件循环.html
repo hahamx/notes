@@ -1,0 +1,220 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>&lt;no title&gt; &#8212; nice_notes 0.0.1 文档</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>h2. 循环&amp;条件
+h3. 条件
+if, if…elif…else
+条件三元表达式:
+Z if X else Y
+smaller = x if x&gt;y else y
+h3. 循环 (避免重复操作放到参数中)
+while 条件循环
+for 迭代循环
+原理 :遍历序列成员, 依次访问可迭代对象(序列, 迭代器)
+使用场景:
+序列
+字符串,列表,元组
+序列项, 序列索引, 项,索引(enumerate())
+字典 for key, value in dict.items()
+迭代器
+自动调用,直到捕获StopItoration异常结束循环
+迭代器对象next()方法,调用后清除本项目,进入下一个项目
+** else 子句只在正常完成后执行,break会跳过else子句
+while…else…
+for…else…
+h3. 循环控制
+break  停止整个循环
+continue    (类似控制:while…for)
+验证成功后,跳过本次,进入下一次
+如:if 条件成真, for 有下一个迭代对象
+pass
+空语句, 可用在 if/elif/else, while/for, def/class, try/except/finally
+h3. 控制流BIF
+range(start,end,step=), 完整语法
+简略语法 range(end),range(start, end)
+xrange()—(性能更高)不会在内存中建立
+enumerate() 每次循环返回tuple(索引,元素对)
+reversed() 反序访问
+zip()
+聚合列表
+从多个等长序列,依次各取出一个元素,组成元组
+分解聚合
+zipped=zip(a,b)
+a,b = zip(*zipped)
+如:a = [1,2,3,4,5]
+b = [6,7,8,9,0]
+zipped1 = zip(a[0:2],b[0:2])
+na,nb = zip(zipped1)
+na ((1, 6),)
+nb ((2, 7),)
+sorted()  (iterable, emp=, key=, )</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h3</span><span class="o">.</span> <span class="n">生成器</span><span class="o">.</span> <span class="n">genarate</span>
+    <span class="n">含义</span><span class="p">:</span> <span class="n">本质为函数</span><span class="p">,</span> <span class="n">允许返回一值</span><span class="p">,</span><span class="n">然后暂停代码执行</span><span class="p">,</span> <span class="n">随后恢复代码执行</span>
+    <span class="n">对比列表解析</span><span class="p">:</span><span class="n">需要一次生成所有数据</span>
+    <span class="n">生成器表达式</span>
+        <span class="n">结合了</span> <span class="n">列表解析</span><span class="o">&amp;</span><span class="n">迭代器</span>
+        <span class="n">在循环中一边循环一边计算后续元素</span><span class="p">,</span><span class="n">优化了内存</span>
+    <span class="n">生成器编写方法</span>
+        <span class="n">生成器表达式</span>
+            <span class="n">打印元素</span>
+                <span class="k">for</span>
+                <span class="nb">next</span><span class="p">()</span> <span class="n">直到计算到最后一个元素</span>
+                <span class="n">如</span><span class="p">:</span><span class="n">寻找文件最长行</span>
+                    <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">txt</span><span class="p">))</span>
+                    <span class="n">优化后</span><span class="p">:</span>
+                        <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span><span class="p">[</span><span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+            <span class="n">函数实现</span>
+                <span class="n">yleld</span> <span class="n">关键字</span>
+                <span class="n">类似函数</span><span class="p">,</span><span class="k">return</span> <span class="n">改为yleld</span><span class="p">,</span> <span class="n">遇到yleld就返回</span><span class="p">,</span><span class="n">可用有多个yleld</span>
+                <span class="k">def</span> <span class="nf">gep</span><span class="p">():</span>
+                    <span class="n">yleld__</span>
+                <span class="n">打印元素</span>
+                    <span class="n">items</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">循环</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span> <span class="nb">print</span><span class="p">()</span>
+                    <span class="nb">next</span><span class="p">()</span>  <span class="n">items</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="n">h3</span><span class="o">.</span> <span class="n">迭代器</span>
+    <span class="n">目的</span>
+        <span class="n">为</span> <span class="n">类序列对象提供类序列接口</span><span class="p">,</span> <span class="n">如字典的键</span> <span class="n">文件的行</span>
+        <span class="n">用于迭代不是序列却</span> <span class="n">需要表现出序列行为的对象</span>
+    <span class="n">本质</span>
+        <span class="nb">next</span><span class="p">()</span><span class="n">方法的对象并非索引计数</span>
+    <span class="n">创建</span>
+        <span class="nb">iter</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span>
+    <span class="n">访问</span>
+        <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>            
+    <span class="n">列表</span>
+        <span class="nb">list</span><span class="p">()</span>
+    <span class="n">使用</span>
+        <span class="n">序列</span>
+            <span class="k">for</span> <span class="n">循环</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">seq</span> 
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">fetch</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">do_something</span>
+        <span class="n">字典</span><span class="p">:</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">ditc</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="n">文件</span><span class="p">:</span>
+            <span class="n">自动调用</span> <span class="n">readline</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">eachline</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="o">*.</span><span class="n">txt</span><span class="p">)</span>                
+    <span class="n">拓展</span>
+        <span class="n">适用</span> <span class="nb">any</span><span class="p">()</span><span class="o">/</span><span class="nb">all</span><span class="p">()</span>
+        <span class="n">判断迭代</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">iterable</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="n">iterable</span><span class="p">)</span>                                
+
+    <span class="n">警告</span>
+        <span class="n">迭代时无法修改</span>
+        <span class="n">迭代时列表的改动会立即反应到迭代条目上</span>
+        <span class="n">字典不能改变</span>
+        <span class="n">限制</span>
+            <span class="n">不能复制</span><span class="p">,</span><span class="n">只能创建另一个迭代器</span>
+            <span class="n">移动方向</span><span class="p">,</span><span class="n">不能重新开始</span>
+
+<span class="n">h3</span><span class="o">.</span> <span class="n">列表解析</span>
+    <span class="n">基本语法</span><span class="p">:</span>
+        <span class="n">expr</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span>
+    <span class="n">拓展版本</span><span class="p">:</span>
+        <span class="n">expr</span> <span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="n">iterable</span> <span class="k">if</span> <span class="n">cond_expr</span>
+    <span class="n">多层循环</span>
+        <span class="n">expr</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span> <span class="n">ofr</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">iter2</span>
+        <span class="n">如</span><span class="p">:</span> <span class="n">计算文本文件</span> <span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">单词总数</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">wotd</span> <span class="n">ofr</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">splot</span><span class="p">())</span>
+        <span class="n">字符总数</span>
+            <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">同时使用dict的键</span><span class="p">,</span><span class="n">值</span>
+        <span class="n">expr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">t</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="n">与zip结合使用</span>
+        <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">10</span>
+    <span class="n">三次函数调用</span>
+        <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">一次函数调用</span>
+        <span class="p">[</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+</pre></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/py_base_条件循环.md.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, zeus_dy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/py_base_条件循环.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

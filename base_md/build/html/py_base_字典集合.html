@@ -1,0 +1,171 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>&lt;no title&gt; &#8212; nice_notes 0.0.1 文档</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>h2. 字典 dict
+h3. 操作特性
+创建 = {},
+dict([[‘a’,’b’],[‘a1’,’b1’]])={‘a’: ‘b’, ‘a1’: ‘b1’}, {}.fromkeys((‘k1’,’k2’), ‘v’)={‘k2’: ‘v’, ‘k1’: ‘v’}
+访问: 键/值/键值对元组, dict.keys()/values()/items()
+判断key: has_key(k), in/not in,
+dict.get(key,-1)–没有key就默认返回 -1,不指定时没有任何返回
+删除key:dict.pop(key)/popitem() 返回该条目值, 键值二元组, del dict[key]
+清空dict: dict.clear(), del dict
+h3. 常用BIF
+标准类型
+type()
+str()
+cmp()
+字典大小–键-值
+相关函数
+dict()  工厂函数
+参数为容器对象,可迭代的成对出现的对象, dict(((a,2),(3,4)))
+len()
+len(dict(((a,2),(3,4)))) = 2
+hash() 判断是否可哈希, 可(哈希)才能作为字典的键
+如:hash((1,2,3))  可哈希为: -378539185
+hash([1,2,3])  不可哈希报错TypeError为:  hash([1,2,3]) TypeError: unhashable type: ‘list’
+返回可迭代器:
+dict.keys(), dict.values(), dict.items()
+dict.copy()  # 浅复制
+dict.get(k, default=) # 获取k值, 没有就返回默认值
+dict.setdefault(k, default=)
+dict.update({‘a’:’b’}) #更新字典{‘a’:’b’}</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h3</span><span class="o">.</span> <span class="n">警告</span>
+    <span class="nb">dict</span> <span class="n">按k查找</span><span class="p">,</span><span class="n">速度块</span><span class="p">,</span> <span class="n">但占内存</span>
+    <span class="nb">list</span> <span class="n">按顺序查找</span><span class="p">,</span><span class="n">查找速度慢</span><span class="p">,</span> <span class="n">但不占内存</span>
+    <span class="n">key</span> <span class="n">必须是可哈希的不可变对象</span><span class="p">:</span> <span class="n">字符串</span><span class="p">,</span><span class="n">数值</span><span class="p">,</span> <span class="n">元组</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="p">:</span> <span class="n">dic1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;(2,3,4)&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>h2. 集合 set
+h3. 无序排列,可哈希,一组key集合, 唯一不可重复
+如: s1 = set((12,3,123,123,12,3)),
+s1 set([123, 3, 12])
+h3. 功能:
+成员关系测试,删除重复元素
+h3. 分类:
+set 可变集合
+frozenset 不可变集合
+h3. 创建:
+仅能用工厂函数
+set()/frozenset()
+s3 = set(‘abcasdasdasdasdasd’)
+s3 set([‘a’, ‘c’, ‘b’, ‘s’, ‘d’])
+s3.add(‘e’)
+s3 set([‘a’, ‘c’, ‘b’, ‘e’, ‘d’, ‘s’])
+s2 = frozenset(‘abcasdasdasdasdasd’)
+s2 frozenset([‘a’, ‘c’, ‘b’, ‘s’, ‘d’])
+h3. 操作符:
+标准类型: in /not in, &lt;,&lt;=,&gt;,&gt;=,!=,==
+集合类型:
+s1 frozenset([‘a’, ‘c’, ‘b’, ‘s’, ‘d’])
+s2 set([‘a’, ‘c’, ‘b’, ‘e’, ‘d’, ‘s’])
+并集 OR   # 包含所有set1 和set2的
+set1 | set2
+set1.union(set2)
+交集 AND  # 同时包含在set1 和set2的
+set1 &amp; set2
+set1.intersection(set2)
+差补 C    # 包含在set1 中且不在set2
+set1 - set2
+set1.difference(set2)
+对称差分 XOR  # 两个集合差别项
+set1 ^ set2
+s1.symmetric_difference(s2)
+frozenset([‘e’])
+s2.symmetric_difference(s1)
+set([‘e’])
+h3. 常用BIF:
+添加元素: set.add(key)
+扩展元素: set.update(seq)
+删除元素: set.discard(obj)  #若存在obj,删除
+删除任一对象: set.pop()
+h3. set 与 tuple
+set 无序, 可变, 可看作无value的字典
+s3  set([‘a’, ‘c’, ‘b’, ‘e’, ‘d’, ‘s’])
+frozenset 无序, 不可变
+s2 frozenset([‘a’, ‘c’, ‘b’, ‘s’, ‘d’])
+tuple 有序, 不可变</p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/py_base_字典集合.md.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, zeus_dy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/py_base_字典集合.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
